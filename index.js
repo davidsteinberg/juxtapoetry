@@ -81,10 +81,12 @@ const makeGenerator = async function*() {
         if (copyright !== undefined && copyright !== null && copyright.length > 0) {
             credit += `${copyright}. `;
         }
-        const source = `${credit}${url2}`;
         yield {
             url: images.web.url,
-            source
+            source: {
+                url: url2,
+                details: credit
+            }
         };
     }
 };
@@ -145,10 +147,12 @@ const makeGenerator1 = async function*() {
         if (linkResource === undefined || linkResource === null || linkResource.length === 0) {
             referenceURL = objectURL;
         }
-        source += referenceURL;
         yield {
             url: primaryImageSmall,
-            source
+            source: {
+                url: referenceURL,
+                details: source
+            }
         };
     }
 };
@@ -203,7 +207,10 @@ const makeGenerator2 = async function*() {
         });
         yield {
             text: line,
-            source: `${title}, by ${author}. https://poetrydb.org`
+            source: {
+                url: "https://poetrydb.org",
+                details: `Line from ${title}, by ${author}.`
+            }
         };
     }
 };
@@ -252,7 +259,7 @@ const ui = {
     info2: select("#box2 > .info"),
     start: select("#start"),
     modal: select("#modal"),
-    modalBody: select("#modal > .body"),
+    about: select("#about"),
     modalClose: select("#modal > .close")
 };
 const inLandscape = ()=>{
@@ -291,13 +298,20 @@ const resize = ()=>{
     });
     resizeImage();
 };
+const showSourceModal = (source)=>{
+    ui.about.innerHTML = `
+    <p>${source.details}</p>
+    <p><a href="${source.url}">Source</a></p>
+  `;
+    ui.modal.classList.remove("hidden");
+};
 const showNewImageContent = async (image, info)=>{
     const content = await generators.image.next();
     const { url: url5 , source  } = content.value;
     image.src = url5;
     info.onpointerup = (event)=>{
         event.stopPropagation();
-        alert(source);
+        showSourceModal(source);
     };
 };
 const showNewTextContent = async (text, info)=>{
@@ -306,7 +320,7 @@ const showNewTextContent = async (text, info)=>{
     text.innerHTML = newText;
     info.onpointerup = (event)=>{
         event.stopPropagation();
-        alert(source);
+        showSourceModal(source);
     };
 };
 const showNewContent = ()=>{

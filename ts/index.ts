@@ -8,6 +8,11 @@ type Source = {
   preWarm?(): void;
 };
 
+type ContentSource = {
+  url: string;
+  details: string;
+};
+
 const sources: Source[] = [
   ...imageSources,
   ...textSources,
@@ -53,7 +58,7 @@ const ui = {
   info2: select("#box2 > .info"),
   start: select("#start"),
   modal: select("#modal"),
-  modalBody: select("#modal > .body"),
+  about: select("#about"),
   modalClose: select("#modal > .close"),
 };
 
@@ -94,6 +99,14 @@ const resize = () => {
   resizeImage();
 };
 
+const showSourceModal = (source: ContentSource) => {
+  ui.about.innerHTML = `
+    <p>${source.details}</p>
+    <p><a href="${source.url}">Source</a></p>
+  `;
+  ui.modal.classList.remove("hidden");
+};
+
 const showNewImageContent = async (
   image: HTMLImageElement,
   info: HTMLElement,
@@ -105,7 +118,7 @@ const showNewImageContent = async (
 
   info.onpointerup = (event) => {
     event.stopPropagation();
-    alert(source);
+    showSourceModal(source);
   };
 };
 
@@ -117,7 +130,7 @@ const showNewTextContent = async (text: HTMLElement, info: HTMLElement) => {
 
   info.onpointerup = (event) => {
     event.stopPropagation();
-    alert(source);
+    showSourceModal(source);
   };
 };
 

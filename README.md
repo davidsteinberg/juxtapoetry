@@ -24,14 +24,19 @@ The architecture allows for simple addition of new sources:
   type:
   ```ts
   type ImageContent = {
-    url: string,
-    source: string
+    url: string;
+    source: Source;
   };
 
   type TextContent = {
-    text: string,
-    source: string
-  }'
+    text: string;
+    source: Source;
+  };
+
+  type Source = {
+    url: string;
+    details: string;
+  };
   ```
 - An optional `preWarm` function, called when the page loads, that allows
   sources to preemptively perform work needed for later content generation -
@@ -50,7 +55,10 @@ const makeGenerator = function* () {
   while (true) {
     yield {
       text: "My Text",
-      source: "http://localhost:8000",
+      source: {
+        url: "http://localhost:8000",
+        details: "Sample text used in my source",
+      },
     };
   }
 };

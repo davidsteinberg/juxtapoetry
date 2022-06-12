@@ -96,13 +96,13 @@ const makeGenerator = async function* () {
       credit += `${copyright}. `;
     }
 
-    // Add url to credit for source
-    const source = `${credit}${url}`;
-
     // Yield the image content
     yield {
       url: images.web.url,
-      source,
+      source: {
+        url,
+        details: credit,
+      },
     };
   }
 };

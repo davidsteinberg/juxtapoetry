@@ -110,12 +110,13 @@ const makeGenerator = async function* () {
       referenceURL = objectURL;
     }
 
-    source += referenceURL;
-
     // Yield the image content
     yield {
       url: primaryImageSmall,
-      source,
+      source: {
+        url: referenceURL,
+        details: source,
+      },
     };
   }
 };

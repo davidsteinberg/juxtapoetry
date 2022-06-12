@@ -70,7 +70,10 @@ const makeGenerator = async function* () {
     // Yield the text content
     yield {
       text: line,
-      source: `${title}, by ${author}. https://poetrydb.org`,
+      source: {
+        url: "https://poetrydb.org",
+        details: `Line from ${title}, by ${author}.`,
+      },
     };
   }
 };
