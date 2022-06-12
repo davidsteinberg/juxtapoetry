@@ -7,11 +7,11 @@ body {
   padding: 0;
   background-color: black;
   cursor: default;
+  font-family: sans-serif;
 }
 
 #grid {
   height: 100%;
-  font-family: sans-serif;
 }
 
 .box {
@@ -55,4 +55,39 @@ button.info {
   right: 0px;
   bottom: 0px;
   z-index: 1;
+}
+
+/* Modal */
+#modal {
+  --padding: 20px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(100% - calc(2 * var(--padding)));
+  height: calc(100% - calc(2 * var(--padding)));
+  padding: var(--padding);
+  overflow: scroll;
+  z-index: 2;
+  background-color: white;
+}
+
+#modal > .body {
+  margin: auto;
+  max-width: 600px;
+}
+
+#modal > .close {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal.hidden {
+  display: none;
 }

@@ -250,7 +250,10 @@ const ui = {
     image: select("#image"),
     info1: select("#box1 > .info"),
     info2: select("#box2 > .info"),
-    start: select("#start")
+    start: select("#start"),
+    modal: select("#modal"),
+    modalBody: select("#modal > .body"),
+    modalClose: select("#modal > .close")
 };
 const inLandscape = ()=>{
     const { clientWidth , clientHeight  } = document.body;
@@ -352,12 +355,18 @@ window.onkeyup = (event)=>{
     }
 };
 window.onpointerup = showNewContent;
-const goToGitHub = (event)=>{
+const showAbout = (event)=>{
     event.stopPropagation();
-    window.open("https://github.com/davidsteinberg/juxtapoetry", "_blank");
+    ui.modal.classList.remove("hidden");
 };
-ui.info1.onpointerup = goToGitHub;
-ui.info2.onpointerup = goToGitHub;
+ui.info1.onpointerup = showAbout;
+ui.info2.onpointerup = showAbout;
+ui.modal.onpointerup = (event)=>{
+    event.stopPropagation();
+};
+ui.modalClose.onpointerup = ()=>{
+    ui.modal.classList.add("hidden");
+};
 let resizeTimeoutId = null;
 window.onresize = ()=>{
     if (resizeTimeoutId !== null) {

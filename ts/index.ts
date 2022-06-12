@@ -52,6 +52,9 @@ const ui = {
   info1: select("#box1 > .info"),
   info2: select("#box2 > .info"),
   start: select("#start"),
+  modal: select("#modal"),
+  modalBody: select("#modal > .body"),
+  modalClose: select("#modal > .close"),
 };
 
 const inLandscape = () => {
@@ -173,14 +176,25 @@ window.onkeyup = (event) => {
 window.onpointerup = showNewContent;
 
 // Before content has loaded, the info buttons
-// should take you to the project on GitHub
-const goToGitHub = (event: Event) => {
+// should show an about modal
+const showAbout = (event: Event) => {
   event.stopPropagation();
-  window.open("https://github.com/davidsteinberg/juxtapoetry", "_blank");
+  ui.modal.classList.remove("hidden");
 };
 
-ui.info1.onpointerup = goToGitHub;
-ui.info2.onpointerup = goToGitHub;
+ui.info1.onpointerup = showAbout;
+ui.info2.onpointerup = showAbout;
+
+// Don't cause new content to be fetched/shown
+// when tapping on things in the modal
+ui.modal.onpointerup = (event) => {
+  event.stopPropagation();
+};
+
+// Hide the modal when close is pressed
+ui.modalClose.onpointerup = () => {
+  ui.modal.classList.add("hidden");
+};
 
 // Resize (coalesced) when the page is resized
 let resizeTimeoutId: number | null = null;
